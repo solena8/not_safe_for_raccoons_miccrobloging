@@ -1,0 +1,57 @@
+DOCUMENTATION DU PROJET :
+
+DANS nsfr/urls.py :
+
+    -> définition des urls, LoginView et LogoutView sont des classes natives qui sont utilisées pour afficher nos pages 'login' et 'logout'
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', LoginView.as_view(
+            template_name='authentication/login.html',
+            redirect_authenticated_user=True),
+             name='login'),
+        path('logout/', LogoutView.as_view(), name='logout'),
+        path('home/', blog.views.home, name='home'),
+    ]
+
+
+
+DANS nsfr/settings.py :
+
+    -> variables globales (nommage). :) U_w_U
+
+    AUTH_USER_MODEL = 'authentication.User'
+    LOGIN_URL = 'login'
+    LOGIN_REDIRECT_URL = 'home'
+    LOGOUT_REDIRECT_URL = LOGIN_URL -> le user est redirigé vers 'login' après avoir été logout
+
+
+
+
+
+DANS blog/views.py :
+
+    @login_required -> décorateur pour montrer l'obligation d'un utilisateur connecté
+    def home(request):
+        return render(request, 'blog/home.html')
+
+    -> fonction home qui 'rend' un template html, ici, home.html. Avec comme parametre 'request' qui contient toutes ses informations.
+
+
+
+DANS authentication/models.py
+
+    -> override 'redéfinition' de la class User, qui est une classe native a Django
+
+    class User(AbstractUser):
+
+        CREATOR = 'CREATOR'
+        SUBSCRIBER = 'SUBSCRIBER'
+
+        ROLE_CHOICES = (
+            (CREATOR, 'Créateur'),
+            (SUBSCRIBER, 'Abonné'),
+        )
+
+        profile_photo = models.ImageField(verbose_name='Photo de profil')
+        role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Rôle')
