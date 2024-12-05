@@ -1,8 +1,8 @@
+
 import re
 from playwright.sync_api import Page, expect
 
 base_url = "http://127.0.0.1:8000/"
-
 
 def test_has_title(page: Page):
     page.goto(base_url)
@@ -20,7 +20,6 @@ def test_connect_username_form_is_visible(page: Page):
     page.goto(base_url)
     login_form = page.get_by_test_id("login_form")
     expect(login_form).to_be_visible()
-
 
 def test_connection_works_and_redirects_home(page: Page):
     page.goto(base_url)
