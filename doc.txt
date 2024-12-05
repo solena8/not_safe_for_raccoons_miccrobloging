@@ -12,6 +12,8 @@ DANS nsfr/urls.py :
              name='login'),
         path('logout/', LogoutView.as_view(), name='logout'),
         path('home/', blog.views.home, name='home'),
+        path('blog/create', blog.views.blog_upload, name='blog_create'),
+        path('blog/<int:blog_id>', blog.views.view_blog, name='view_blog'),
     ]
 
 
@@ -33,10 +35,39 @@ DANS blog/views.py :
 
     @login_required -> décorateur pour montrer l'obligation d'un utilisateur connecté
     def home(request):
-        return render(request, 'blog/home.html')
+        blogs = models.Blog.objects.all() -> récupère les objects du blog (les posts)
+        return render(request, 'blog/home.html', context={'blogs': blogs})
 
     -> fonction home qui 'rend' un template html, ici, home.html. Avec comme parametre 'request' qui contient toutes ses informations.
 
+    @login_required
+    def blog_upload(request):
+        blog_form = forms.BlogForm()
+        if request.method == 'POST':
+            blog_form = forms.BlogForm(request.POST)
+            if blog_form.is_valid():
+                blog = blog_form.save(commit=False)
+                blog.author = request.user
+                blog.save()
+                return redirect('home')
+        context = {
+            'blog_form': blog_form,
+    }
+        return render(request, 'blog/create_blog_post.html', context=context)
+
+    -> fonction qui affiche le formulaire blog_form vide. Si l'utilisateur soumet le formulaire, celui-ci est envoyé avec les données soumises.
+    -> si le formulaire est valide, cela crée une instance du modèle Blog sans la sauvegarder dans la bdd. Associe l'user connecté à l'auteur du post.
+    -> sauvegarde l'objet et retourne la page html avec les données du formulaire dedans.
+
+
+    @login_required
+    def view_blog(request, blog_id):
+        blog = get_object_or_404(models.Blog, id=blog_id)
+        return render(request, 'blog/view_blog.html', {'blog': blog})
+
+    -> fonction qui affiche les posts spécifiques vec 'request' qui contient les informations envoyé par POST avec l'id du post.
+    -> si le post est trouvé, les informations se stockent dans la variable 'blog', sinon Django gère l'erreur.
+    -> retourne la page 'view_blog' avec les informations de 'blog'
 
 
 DANS authentication/models.py
@@ -57,7 +88,17 @@ DANS authentication/models.py
         role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Rôle')
 
 
+
 CONCERNANT LES TESTS :
 Au sein de chaque application, il y a un dossier tests, qui regroupera les tests unitaires reliés à l'application. Au sein
 de ce dossier, il y a un fichier __ini__.py qu'il faut initialiser à la main.
 A la racine du projet, il y a un dossier E2E qui contient les tests end to end.
+
+DANS blog/forms.py
+
+    -> formulaire de création de posts avec une class Meta (convention Django) pour 'metadonnées'
+
+    class BlogForm(forms.ModelForm):
+    class Meta:
+        model = models.Blog
+        fields = ['title', 'content']

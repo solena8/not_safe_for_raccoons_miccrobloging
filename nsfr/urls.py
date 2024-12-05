@@ -29,4 +29,6 @@ urlpatterns = [
          name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('home/', blog.views.home, name='home'),
+    path('blog/create', blog.views.blog_upload, name='blog_create'),
+    path('blog/<int:blog_id>', blog.views.view_blog, name='view_blog'),
 ]
