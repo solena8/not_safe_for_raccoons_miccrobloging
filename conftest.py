@@ -11,7 +11,7 @@ def test_server(page, live_server):
 @pytest.fixture
 def test_user(db):
     return User.objects.create_user(
-        username="test_user2",
+        username="test_user",
         password="secure_password"
     )
 
