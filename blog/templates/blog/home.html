@@ -5,7 +5,7 @@
         {% for blog in blogs %}
             <div class="post">
                 <a href="{% url 'view_blog' blog.id %}">
-                    <h4>Billet de {{ request.user }} : {{ blog.title }}</h4>
+                    <h4>Billet de {{ blog.author }} : {{ blog.title }}</h4>
                 </a>
             </div>
         {% endfor %}
