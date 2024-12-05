@@ -55,3 +55,9 @@ DANS authentication/models.py
 
         profile_photo = models.ImageField(verbose_name='Photo de profil')
         role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Rôle')
+
+
+CONCERNANT LES TESTS :
+Au sein de chaque application, il y a un dossier tests, qui regroupera les tests unitaires reliés à l'application. Au sein
+de ce dossier, il y a un fichier __ini__.py qu'il faut initialiser à la main.
+A la racine du projet, il y a un dossier E2E qui contient les tests end to end.
