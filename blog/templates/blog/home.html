@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Vous êtes connecté !</p>
+    <h2>Super nom de SuperBlog</h2>
+    <div class="grid-container">
+        {% for blog in blogs %}
+            <div class="post">
+                <a href="{% url 'view_blog' blog.id %}">
+                    <h4>Billet de {{ request.user }} : {{ blog.title }}</h4>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
