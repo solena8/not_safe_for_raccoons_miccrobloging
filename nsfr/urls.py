@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import (
     LoginView, LogoutView)
+from django.conf import settings
+from django.conf.urls.static import static
 
 import blog.views
 import authentication.views
@@ -30,7 +32,11 @@ urlpatterns = [
          name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('home/', blog.views.home, name='home'),
-    path('blog/create', blog.views.blog_upload, name='blog_create'),
+    path('blog/create', blog.views.blog_and_photo_upload, name='blog_create'),
     path('blog/<int:blog_id>', blog.views.view_blog, name='view_blog'),
     path('signup/', authentication.views.signup_page, name='signup'),
+    path('photo/upload/', blog.views.photo_upload, name='photo_upload')
 ]
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
