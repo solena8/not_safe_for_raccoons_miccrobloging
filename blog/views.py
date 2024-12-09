@@ -8,8 +8,8 @@ from . import forms
 
 @login_required
 def home(request):
-    photos = models.Photo.objects.all()
-    blogs = models.Blog.objects.all()
+    photos = models.Photo.objects.all().order_by('-date_created')
+    blogs = models.Blog.objects.all().order_by('-date_created')
     return render(request, 'blog/home.html', context={'photos': photos, 'blogs': blogs})
 
 @login_required
