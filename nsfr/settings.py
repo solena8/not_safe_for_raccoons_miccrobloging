@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_COOKIE_NAME = "sessionid"
+
 ROOT_URLCONF = 'nsfr.urls'
 
 TEMPLATES = [
@@ -126,7 +128,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Emplacement local pour collecter les fichiers statiques (collectstatic)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Assurez-vous que ce répertoire existe
+]
+# En production (pour collecter dans un seul dossier)
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -147,3 +156,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static') 
 ]
+

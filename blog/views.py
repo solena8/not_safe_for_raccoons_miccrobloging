@@ -3,24 +3,48 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from blog import forms, models
 
+from . import forms
+
 
 @login_required
 def home(request):
-    blogs = models.Blog.objects.all()
-    return render(request, 'blog/home.html', context={'blogs': blogs})
+    photos = models.Photo.objects.all().order_by('-date_created')
+    blogs = models.Blog.objects.all().order_by('-date_created')
+    return render(request, 'blog/home.html', context={'photos': photos, 'blogs': blogs})
 
 @login_required
-def blog_upload(request):
+def photo_upload(request):
+    form = forms.PhotoForm()
+    if request.method == 'POST':
+        form = forms.PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            # set the uploader to the user before saving the model
+            photo.uploader = request.user
+            # now we can save
+            photo.save()
+            return redirect('home')
+    return render(request, 'blog/photo_upload.html', context={'form': form})
+
+@login_required
+def blog_and_photo_upload(request):
     blog_form = forms.BlogForm()
+    photo_form = forms.PhotoForm()
     if request.method == 'POST':
         blog_form = forms.BlogForm(request.POST)
-        if blog_form.is_valid():
+        photo_form = forms.PhotoForm(request.POST, request.FILES)
+        if all([blog_form.is_valid(), photo_form.is_valid()]):
+            photo = photo_form.save(commit=False)
+            photo.uploader = request.user
+            photo.save()
             blog = blog_form.save(commit=False)
             blog.author = request.user
+            blog.photo = photo
             blog.save()
             return redirect('home')
     context = {
         'blog_form': blog_form,
+        'photo_form': photo_form,
 }
     return render(request, 'blog/create_blog_post.html', context=context)
 
