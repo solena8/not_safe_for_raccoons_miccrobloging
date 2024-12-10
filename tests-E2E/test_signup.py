@@ -1,8 +1,8 @@
 import pytest
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from django.conf import settings
 from django.test import Client
+
 
 @pytest.mark.django_db
 def test_signup_page_get():
@@ -30,7 +30,7 @@ def test_signup_page_post_invalid_data():
         'password2': 'differentpassword',  # Mots de passe différents
     }
     response = client.post(reverse('signup'), data)
-    
+
     # Vérifier que le formulaire est renvoyé avec des erreurs
     assert response.status_code == 200
     assert 'form' in response.context
@@ -52,7 +52,7 @@ def test_signup_page_post_valid_data():
         'password2': 'testpassword123',
     }
     response = client.post(reverse('signup'), data)
-    
+
     # Vérifier la redirection après une inscription réussie
     assert response.status_code == 302
     # Assurer la redirection vers /home/ après l'inscription
@@ -84,7 +84,7 @@ def test_signup_page_auto_login():
         'password2': 'testpassword123',
     }
     response = client.post(reverse('signup'), data)
-    
+
     # Vérifier la redirection après une inscription réussie
     assert response.status_code == 302
     # Assurer la redirection vers /home/ après l'inscription
