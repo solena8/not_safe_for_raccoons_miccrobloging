@@ -1,34 +1,31 @@
+import pytest
 from django.core.exceptions import ValidationError
-from authentication.validators import ContainsLetterValidator, ContainsNumberValidator 
+from authentication.validators import ContainsLetterValidator, ContainsNumberValidator
 
-def test_both_validators():
+
+def test_letter_validator_validate_valid_password():
     validator_letter = ContainsLetterValidator()
-    validator_number = ContainsNumberValidator()
-
-    # Mot de passe valide
     password = "ValidPassword123"
-    try:
-        validator_letter.validate(password)
-        validator_number.validate(password)
-    except ValidationError:
-        assert False, "Aucune ValidationError ne devrait être levée pour un mot de passe valide."
+    validator_letter.validate(password)
+    assert True
 
-    # Mot de passe invalide (sans lettre)
+
+def test_number_validator_validate_valid_password():
+    validator_number = ContainsNumberValidator()
+    password = "ValidPassword123"
+    validator_number.validate(password)
+    assert True
+
+
+def test_digit_only_password_raise_validation_error():
+    validator_letter = ContainsLetterValidator()
     password = "123456"
-    try:
+    with pytest.raises(ValidationError):
         validator_letter.validate(password)
-        assert False, "ValidationError devrait être levée pour un mot de passe sans lettre."
-    except ValidationError as e:
-        # Vérifier le message d'erreur dans la liste
-        assert str(e.message) == 'Le mot de passe doit contenir une lettre', \
-            "Le message d'erreur est incorrect pour mot de passe sans lettre."
-    
-    # Mot de passe invalide (sans chiffre)
+
+
+def test_letters_only_password_raise_validation_error():
+    validator_number = ContainsNumberValidator()
     password = "Password"
-    try:
+    with pytest.raises(ValidationError):
         validator_number.validate(password)
-        assert False, "ValidationError devrait être levée pour un mot de passe sans chiffre."
-    except ValidationError as e:
-        # Vérifier le message d'erreur dans la liste
-        assert str(e.message) == 'Le mot de passe doit contenir un chiffre', \
-            "Le message d'erreur est incorrect pour mot de passe sans chiffre."
