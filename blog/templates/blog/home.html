@@ -16,7 +16,7 @@
             {% if blog.photo and blog.photo.image %}
                 <img src="{{ blog.photo.image.url }}" />
             {% endif %}
-            <h4>Billet : {{ blog.title }}</h4>
+            <h4>Billet de {{ blog.author }} : {{ blog.title }}</h4>
         </a>
     </div>
     {% endfor %}

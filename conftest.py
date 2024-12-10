@@ -1,4 +1,10 @@
 import pytest
+import django
+
+# Initialisation de Django
+django.setup()
+
+
 from authentication.models import User
 
 

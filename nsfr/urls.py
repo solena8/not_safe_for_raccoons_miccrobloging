@@ -23,6 +23,9 @@ from django.conf.urls.static import static
 
 import blog.views
 import authentication.views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,7 +39,9 @@ urlpatterns = [
     path('blog/<int:blog_id>', blog.views.view_blog, name='view_blog'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('photo/upload/', blog.views.photo_upload, name='photo_upload')
-]
+    path('profile/', authentication.views.MyProfile.as_view(), name='profile'),
+] 
+
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
