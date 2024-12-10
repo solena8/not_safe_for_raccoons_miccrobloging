@@ -24,7 +24,7 @@ from django.conf import settings
 
 
 
-def test_logout_deletes_sessionid(page: Page, test_user, test_server, live_server):
+def test_logout_deletes_sessionid(page: Page, test_user, test_server):
     # 1. Connecte l'utilisateur
     page.get_by_label("Nom d’utilisateur").fill(test_user.username)
     page.get_by_label("Mot de passe").fill("secure_password")
