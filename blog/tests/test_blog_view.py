@@ -33,3 +33,29 @@ class HomeViewTests(TestCase):
         response = self.client.get(reverse('home'))
         self.client.logout()
         self.assertEqual(200, response.status_code)
+
+    @pytest.mark.django_db
+    @patch("blog.models.Photo.objects")
+    @patch("blog.models.Blog.objects")
+    @patch("blog.views.render")
+    def test_(self, photo_mock_objects, blog_mock_objects, render_mock):
+        self.client.login(username=self.username, password=self.password)
+
+        photos_mock = MagicMock()
+        blogs_mock = MagicMock()
+
+        photo_mock_objects.all.return_value.order_by.return_value = photos_mock
+        blog_mock_objects.all.return_value.order_by.return_value = blogs_mock
+
+        factory = RequestFactory()
+        request = factory.get(reverse('home'))
+
+        response = home(request)
+
+        render_mock.assert_called_once_with(
+            request,
+            'blog/home.html',
+            context={'photos': photos_mock, 'blogs': blogs_mock}
+        )
+
+        assert response == render_mock.return_value
