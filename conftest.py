@@ -1,5 +1,6 @@
 import pytest
 import django
+from playwright.sync_api import sync_playwright
 
 # Initialisation de Django
 django.setup()
@@ -21,3 +22,9 @@ def test_user(db):
         password="secure_password"
     )
 
+@pytest.fixture(scope="session")
+def browser():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        yield browser
+        browser.close()
