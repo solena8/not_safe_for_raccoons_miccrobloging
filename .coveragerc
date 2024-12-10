@@ -1,0 +1,8 @@
+[run]
+omit =
+    */venv/*
+    */migrations/*
+    */tests-E2E/*
+    */manage.py
+    */authentication/tests/*
+    */conftest.py
