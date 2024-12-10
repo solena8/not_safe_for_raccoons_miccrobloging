@@ -1,0 +1,145 @@
+/* Style global pour le corps de la page */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7fa; /* Couleur de fond douce */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Style pour le titre */
+h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #FFD700; /* Couleur or pour le texte */
+    text-align: center;
+    margin: 0;
+    padding: 50px;
+    background: linear-gradient(to right, #002366, #001B4B); /* Dégradé bleu royal foncé */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Ombre légère pour profondeur */
+}
+
+/* Conteneur des onglets */
+.tab-container {
+    display: flex;
+    justify-content: space-between; /* Répartit les onglets et bouton déconnexion */
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 90%;
+    max-width: 800px;
+}
+
+/* Style des boutons (onglets) */
+.tab-button {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    background-color: #002366; /* Bleu royal foncé */
+    color: #FFD700; /* Texte or */
+    border: none;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center; /* Centrer le texte */
+    align-items: center; /* Centrer verticalement le texte */
+}
+
+/* Effet au survol des boutons */
+.tab-button:hover {
+    background-color: #001B4B; /* Bleu royal encore plus foncé */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Bouton déconnexion */
+.logout-button {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    background-color: #FFD700; /* Or pour le bouton */
+    color: #002366; /* Texte en bleu royal foncé */
+    border: none;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: auto; /* Aligne le bouton à droite */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Effet au survol du bouton de déconnexion */
+.logout-button:hover {
+    background-color: #FFC300; /* Or plus brillant */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour le formulaire de publication */
+form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px;
+    margin-top: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Animation de l'apparition du formulaire */
+form:hover {
+    transform: scale(1.02);
+}
+
+/* Espacement entre les champs du formulaire */
+form input, form textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease;
+}
+
+/* Changement de bordure lors de la sélection d'un champ */
+form input:focus, form textarea:focus {
+    border-color: #002366; /* Bordure bleu royal foncé */
+    outline: none;
+}
+
+/* Style pour les boutons de formulaire */
+form button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #002366; /* Bleu royal foncé */
+    color: #FFD700; /* Texte or */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Effet au survol du bouton de soumission */
+form button:hover {
+    background-color: #001B4B; /* Bleu royal plus sombre */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
