@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Écrire un billet</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" data-testid="post_form">
         {{ blog_form.as_p }}
         {{ photo_form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Publier</button>
+        <button type="submit" data-testid="publish_button">Publier</button>
     </form>
 {% endblock content %}
