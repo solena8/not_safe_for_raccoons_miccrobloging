@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_COOKIE_NAME = "sessionid"
+
 ROOT_URLCONF = 'nsfr.urls'
 
 TEMPLATES = [
