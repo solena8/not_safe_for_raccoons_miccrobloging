@@ -26,7 +26,6 @@ class TestPostForm:
         self._login(page, test_user)
         page.goto(live_server.url+"/blog/create")
         title_input = page.locator("#id_title")
-        # title_input = page.query_selector("#id_title")
         expect(title_input).to_be_visible()
 
     def test_content_input_is_visible(self, page: Page, test_server, test_user, live_server):
