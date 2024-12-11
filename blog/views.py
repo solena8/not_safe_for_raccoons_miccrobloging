@@ -10,21 +10,25 @@ from . import forms
 def home(request):
     photos = models.Photo.objects.all().order_by('-date_created')
     blogs = models.Blog.objects.all().order_by('-date_created')
+
+    blogs = blogs if blogs.exists() else None
+
     return render(request, 'blog/home.html', context={'photos': photos, 'blogs': blogs})
 
-@login_required
-def photo_upload(request):
-    form = forms.PhotoForm()
-    if request.method == 'POST':
-        form = forms.PhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            photo = form.save(commit=False)
-            # set the uploader to the user before saving the model
-            photo.uploader = request.user
-            # now we can save
-            photo.save()
-            return redirect('home')
-    return render(request, 'blog/photo_upload.html', context={'form': form})
+
+# @login_required
+# def photo_upload(request):
+#     form = forms.PhotoForm()
+#     if request.method == 'POST':
+#         form = forms.PhotoForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             photo = form.save(commit=False)
+#             # set the uploader to the user before saving the model
+#             photo.uploader = request.user
+#             # now we can save
+#             photo.save()
+#             return redirect('home')
+#     return render(request, 'blog/photo_upload.html', context={'form': form})
 
 @login_required
 def blog_and_photo_upload(request):
@@ -45,7 +49,7 @@ def blog_and_photo_upload(request):
     context = {
         'blog_form': blog_form,
         'photo_form': photo_form,
-}
+    }
     return render(request, 'blog/create_blog_post.html', context=context)
 
 

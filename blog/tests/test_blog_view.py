@@ -1,10 +1,15 @@
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
-from django.test import Client, RequestFactory
+from unittest.result import failfast
+
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.db.models.sql.datastructures import Empty
+from django.test import Client
 import pytest
 from django.urls import reverse
-from blog.views import home
+
+from blog import models
 from authentication.models import User
+from conftest import test_user
 
 
 @pytest.mark.django_db
@@ -13,13 +18,28 @@ class HomeViewTests(TestCase):
         self.username = 'test'
         self.password = 'password123'
         self.user = User.objects.create_user(username=self.username, password=self.password)
-
         self.client = Client()
 
-        # self.photo1 = models.Photo.objects.create(title='Photo 1')
-        # self.photo2 = models.Photo.objects.create(title='Photo 2')
-        # self.blog1 = models.Blog.objects.create(title='Blog 1')
-        # self.blog2 = models.Blog.objects.create(title='Blog 1')
+        self.small_gif = (b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04'
+                          b'\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02'
+                          b'\x02\x4c\x01\x00\x3b')
+
+        self.photo1 = models.Photo.objects.create(
+            image=SimpleUploadedFile('small1.gif', self.small_gif, content_type='image/gif'),
+            caption='Photo 1',
+            uploader=self.user
+        )
+        self.photo2 = models.Photo.objects.create(
+            image=SimpleUploadedFile('small2.gif', self.small_gif, content_type='image/gif'),
+            caption='Photo 2',
+            uploader=self.user
+        )
+        self.blog1 = models.Blog.objects.create(title='Test Blog 1', content='Test 1', author=self.user,
+                                                date_created='2023-01-15', starred=False)
+        self.blog2 = models.Blog.objects.create(title='Test Blog 2', content='Test 2', author=self.user,
+                                                date_created='2023-01-15', starred=False)
+
+    # def tearDown(self):
 
     @pytest.mark.django_db
     def test_home_view_needs_to_be_logged_in(self):
@@ -34,28 +54,19 @@ class HomeViewTests(TestCase):
         self.client.logout()
         self.assertEqual(200, response.status_code)
 
-    @pytest.mark.django_db
-    @patch("blog.models.Photo.objects")
-    @patch("blog.models.Blog.objects")
-    @patch("blog.views.render")
-    def test_(self, photo_mock_objects, blog_mock_objects, render_mock):
+    def test_home_view_displays_the_correct_amount_of_blogs(self):
         self.client.login(username=self.username, password=self.password)
+        response = self.client.get(reverse('home'))
+        self.assertEqual(len(response.context['blogs']), 2)
 
-        photos_mock = MagicMock()
-        blogs_mock = MagicMock()
+    def test_home_view_displays_blogs_ordered_by_creation_date(self):
+        self.client.login(username=self.username, password=self.password)
+        response = self.client.get(reverse('home'))
+        blogs = response.context['blogs']
+        self.assertTrue(blogs[0].date_created > blogs[1].date_created)
 
-        photo_mock_objects.all.return_value.order_by.return_value = photos_mock
-        blog_mock_objects.all.return_value.order_by.return_value = blogs_mock
-
-        factory = RequestFactory()
-        request = factory.get(reverse('home'))
-
-        response = home(request)
-
-        render_mock.assert_called_once_with(
-            request,
-            'blog/home.html',
-            context={'photos': photos_mock, 'blogs': blogs_mock}
-        )
-
-        assert response == render_mock.return_value
+    def test_home_view_with_no_content(self):
+        models.Blog.objects.all().delete()
+        self.client.login(username=self.user.username, password=self.user.password)
+        response = self.client.get(reverse('home'), follow=True)
+        self.assertNotIn('blogs', response.context)
