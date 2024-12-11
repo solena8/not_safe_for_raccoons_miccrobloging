@@ -1,5 +1,4 @@
 {% extends 'base.html' %} {% block content %}
-<h2>Blog</h2>
 <div class="grid-container">
     {% for blog in blogs %}
     <div class="post">
@@ -7,7 +6,7 @@
             {% if blog.photo and blog.photo.image %}
             <img src="{{ blog.photo.image.url }}" />
             {% endif %}
-            <h4>Billet de {{ blog.author }} : {{ blog.title }}</h4>
+            <h4 class="post-title">> Post de {{ blog.author }} : {{ blog.title }}</h4>
         </a>
     </div>
     {% endfor %}

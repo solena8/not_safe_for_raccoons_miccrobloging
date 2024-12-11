@@ -1,21 +1,19 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <div class="center">
     <!-- Formulaire avec enctype pour supporter l'upload de fichiers -->
-    <form method="POST" enctype="multipart/form-data" class="card">
+    <form method="POST" class="form" enctype="multipart/form-data" class="card">
         {% csrf_token %}
 
         <!-- Affichage de l'avatar si l'utilisateur en a un -->
         {% if user.profile.avatar %}
-            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="avatar" accept=".jpg,.jpeg,.png"/>
+        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="avatar" accept=".jpg,.jpeg,.png" />
         {% endif %}
 
         <!-- Affichage du nom d'utilisateur et de l'email -->
         <h2 class="text-center">{{ user.username | title }}</h2>
         <p class="text-center"><a href="mailto:{{user.email}}">{{user.email}}</a></p>
-        <hr>
+        <hr />
 
         <!-- Champ de formulaire pour l'username -->
         <label for="username">Nom d'utilisateur:</label>
@@ -23,7 +21,7 @@
 
         <!-- Champ de formulaire pour l'avatar -->
         <label for="avatar">Avatar:</label>
-        <input type="file" name="avatar" id="avatar">
+        <input type="file" name="avatar" id="avatar" />
 
         <!-- Bouton de soumission -->
         <button type="submit" class="btn btn-primary full-width">Mettre à jour le profil</button>
