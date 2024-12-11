@@ -1,28 +1,30 @@
 {% load static %}
 <html>
-<head>
-    <title>Not Safe For Raccoons 🦝</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_base.css' %}">
-</head>
-<body>
-    <h1>Not Safe For Raccoons 🦝</h1>
-
-    {% block content %}
-    {% endblock content %}
-
-    {% if user.is_authenticated %}
-        <div class="tab-container">
-            <a href="{% url 'home' %}" class="tab-button">Accueil</a>
+    <head>
+        <title>Not Safe For Raccoons 🦝</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/style_base.css' %}" />
+    </head>
+    <header>
+        <h1>Not Safe For Raccoons 🦝</h1>
+        {% if user.is_authenticated %}
+        <p>Vous êtes connecté en tant que {{ request.user }}.</p>
+        {% endif %}
+        <a href="{% url 'home' %}" class="home-button">Accueil</a>
+    </header>
+    <body>
+        <div class="button_container">
             <a href="{% url 'blog_create' %}" class="tab-button">Écrire un post</a>
             <a href="{% url 'profile' %}" class="tab-button">Mon Profil</a>
+        </div>
+
+        {% block content %} {% endblock content %} {% if user.is_authenticated %}
+        <div class="container-logout">
             <form method="post" action="{% url 'logout' %}" class="tab-button">
                 {% csrf_token %}
                 <button type="submit" class="logout-button">Se déconnecter</button>
             </form>
         </div>
-        <p>Vous êtes connecté en tant que {{ request.user }}.</p>
-    {% endif %}
-</body>
-
+        {% endif %}
+    </body>
 </html>

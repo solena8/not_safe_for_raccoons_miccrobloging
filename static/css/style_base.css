@@ -1,4 +1,33 @@
-/* Style global pour le corps de la page */
+header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-align: center;
+    margin: 0;
+    background: linear-gradient(#1d3030, #122a00);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    min-width: 100vw;
+}
+
+p {
+    font-size: 10px;
+    text-align: right;
+    padding: 0px 20px 0px 0px;
+}
+
+.home-button {
+    display: flex;
+    justify-content: start;
+    font-weight: bold;
+    color: #ffd700;
+    font-size: 10px;
+    text-decoration: none;
+    padding: 0px 0px 10px 20px;
+}
+
 body {
     font-family: "Roboto", sans-serif;
     background-color: #f4f7fa; /* Couleur de fond douce */
@@ -8,27 +37,15 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
 }
 
-/* Style pour le titre */
-h1 {
-    font-size: 4rem;
-    font-weight: bold;
-    color: #ffd700; /* Couleur or pour le texte */
-    text-align: center;
-    margin: 0;
-    padding: 50px;
-    background: linear-gradient(to right, #002366, #001b4b); /* Dégradé bleu royal foncé */
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Ombre légère pour profondeur */
+img {
+    width: 400px;
+    border-radius: 5px;
 }
 
 /* Conteneur des onglets */
-.tab-container {
+.container-logout {
     display: flex;
     justify-content: space-between; /* Répartit les onglets et bouton déconnexion */
     gap: 20px;
@@ -38,29 +55,21 @@ h1 {
     max-width: 800px;
 }
 
-/* Style des boutons (onglets) */
+.button_container {
+    margin: 10px;
+}
+
 .tab-button {
-    padding: 15px 25px;
+    color: #ffd700;
+    text-decoration: none;
+    background-color: #1d3030;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 5px 15px 5px 15px;
     font-size: 1.2rem;
-    background-color: #002366; /* Bleu royal foncé */
-    color: #ffd700; /* Texte or */
     border: none;
     border-radius: 25px;
     text-align: center;
-    text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center; /* Centrer le texte */
-    align-items: center; /* Centrer verticalement le texte */
-}
-
-/* Effet au survol des boutons */
-.tab-button:hover {
-    background-color: #001b4b; /* Bleu royal encore plus foncé */
-    transform: translateY(-5px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Bouton déconnexion */
