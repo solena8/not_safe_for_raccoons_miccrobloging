@@ -1,6 +1,12 @@
 import os
+import tempfile
+
 os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = '1'
 from playwright.sync_api import Page, expect
+from django.conf import settings
+from unittest.mock import patch
+
+
 
 class TestPostForm:
 
@@ -47,12 +53,21 @@ class TestPostForm:
         expect(caption_input).to_be_visible()
 
     def test_publishing_works_and_redirects_home(self, page: Page, test_user, live_server, test_server):
-        self._login(page, test_user)
-        page.goto(live_server.url+"/blog/create")
-        page.get_by_label("Title").fill("test")
-        page.get_by_label("Content").fill("test")
-        page.get_by_label("Caption").fill("test")
-        image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../media/avatar.jpg"))
-        page.locator("#id_image").set_input_files(image_path)
-        page.get_by_role("button", name="Publier").click()
-        assert page.url == live_server.url + "/home/"
+        # Create a temporary directory for media
+        with patch.object(settings, 'MEDIA_ROOT', tempfile.mkdtemp()):
+            # Mock various file-related operations
+            with patch('django.core.files.storage.FileSystemStorage.save', return_value='mocked_image.jpg'), \
+                    patch('django.core.files.storage.FileSystemStorage.delete'), \
+                    patch('os.remove'), \
+                    patch('shutil.rmtree'):
+                self._login(page, test_user)
+                page.goto(live_server.url + "/blog/create")
+                page.get_by_label("Title").fill("test")
+                page.get_by_label("Content").fill("test")
+                page.get_by_label("Caption").fill("test")
+
+                image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../media/avatar.jpg"))
+                page.locator("#id_image").set_input_files(image_path)
+
+                page.get_by_role("button", name="Publier").click()
+                assert page.url == live_server.url + "/home/"
