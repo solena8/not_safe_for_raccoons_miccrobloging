@@ -109,3 +109,6 @@ venv.bak/
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+#screenshots
+login_actual.png

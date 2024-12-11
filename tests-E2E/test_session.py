@@ -3,7 +3,7 @@ os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = '1'
 from playwright.sync_api import Page
 from django.conf import settings
 
-# @todo spliter le test en 3 tests
+# @todo spliter le test en 3 testsgit pull
 # @todo classes et éviter la répétition de code ?
 
 class TestSession:

@@ -1,55 +1,28 @@
 import pytest
 import django
-from playwright.sync_api import sync_playwright
-from django.conf import settings
-import os
-import shutil
 
-# Initialisation de Django
+# Initialisation de Django. Cette commande configure le projet Django pour que
+# les tests puissent interagir avec les modèles, la base de données, etc.
 django.setup()
 
-
+# Importation du modèle User depuis l'application "authentication".
 from authentication.models import User
 
-
+# Définition d'une fixture pytest pour démarrer un serveur de test avec Playwright (représenté par "page")
 @pytest.fixture()
 def test_server(page, live_server):
     page.goto(live_server.url)
     return page
 
-
+# Définition d'une fixture pytest pour créer un utilisateur de test.
 @pytest.fixture
 def test_user(db):
+    # Utilisation du système d'authentification de Django pour créer un utilisateur
     return User.objects.create_user(
         username="test_user",
         password="secure_password"
     )
 
-@pytest.fixture(scope="session")
-def browser():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        yield browser
-        browser.close()
 
-# Fixture qui s'exécute avant chaque test pour créer un dossier `media` pour les tests
-@pytest.fixture(scope="function", autouse=True)
-def setup_media_for_tests():
-    # Spécifie un chemin dans le répertoire de tests
-    media_test_path = os.path.join(settings.BASE_DIR, 'test_media')
 
-    # Crée le dossier `media` dans tests_e2e s'il n'existe pas déjà
-    if not os.path.exists(media_test_path):
-        os.makedirs(media_test_path)
 
-    # Modifie temporairement MEDIA_ROOT pour qu'il pointe vers ce dossier
-    original_media_root = settings.MEDIA_ROOT
-    settings.MEDIA_ROOT = media_test_path
-
-    # Pendant les tests, utilise le dossier temporaire
-    yield  # Exécute les tests ici
-
-    # Après le test, rétablit le MEDIA_ROOT et supprime le dossier temporaire `media`
-    settings.MEDIA_ROOT = original_media_root
-    if os.path.exists(media_test_path):
-        shutil.rmtree(media_test_path)
