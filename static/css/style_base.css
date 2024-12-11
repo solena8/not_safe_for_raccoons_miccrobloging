@@ -1,6 +1,6 @@
 /* Style global pour le corps de la page */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     background-color: #f4f7fa; /* Couleur de fond douce */
     margin: 0;
     padding: 0;
@@ -15,11 +15,11 @@ body {
 h1 {
     font-size: 4rem;
     font-weight: bold;
-    color: #FFD700; /* Couleur or pour le texte */
+    color: #ffd700; /* Couleur or pour le texte */
     text-align: center;
     margin: 0;
     padding: 50px;
-    background: linear-gradient(to right, #002366, #001B4B); /* Dégradé bleu royal foncé */
+    background: linear-gradient(to right, #002366, #001b4b); /* Dégradé bleu royal foncé */
     text-transform: uppercase;
     letter-spacing: 2px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -43,7 +43,7 @@ h1 {
     padding: 15px 25px;
     font-size: 1.2rem;
     background-color: #002366; /* Bleu royal foncé */
-    color: #FFD700; /* Texte or */
+    color: #ffd700; /* Texte or */
     border: none;
     border-radius: 25px;
     text-align: center;
@@ -58,7 +58,7 @@ h1 {
 
 /* Effet au survol des boutons */
 .tab-button:hover {
-    background-color: #001B4B; /* Bleu royal encore plus foncé */
+    background-color: #001b4b; /* Bleu royal encore plus foncé */
     transform: translateY(-5px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
@@ -67,7 +67,7 @@ h1 {
 .logout-button {
     padding: 15px 25px;
     font-size: 1.2rem;
-    background-color: #FFD700; /* Or pour le bouton */
+    background-color: #ffd700; /* Or pour le bouton */
     color: #002366; /* Texte en bleu royal foncé */
     border: none;
     border-radius: 25px;
@@ -84,7 +84,7 @@ h1 {
 
 /* Effet au survol du bouton de déconnexion */
 .logout-button:hover {
-    background-color: #FFC300; /* Or plus brillant */
+    background-color: #ffc300; /* Or plus brillant */
     transform: translateY(-5px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
@@ -107,7 +107,8 @@ form:hover {
 }
 
 /* Espacement entre les champs du formulaire */
-form input, form textarea {
+form input,
+form textarea {
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
@@ -118,7 +119,8 @@ form input, form textarea {
 }
 
 /* Changement de bordure lors de la sélection d'un champ */
-form input:focus, form textarea:focus {
+form input:focus,
+form textarea:focus {
     border-color: #002366; /* Bordure bleu royal foncé */
     outline: none;
 }
@@ -128,7 +130,7 @@ form button {
     padding: 15px 30px;
     font-size: 1.2rem;
     background-color: #002366; /* Bleu royal foncé */
-    color: #FFD700; /* Texte or */
+    color: #ffd700; /* Texte or */
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -139,7 +141,7 @@ form button {
 
 /* Effet au survol du bouton de soumission */
 form button:hover {
-    background-color: #001B4B; /* Bleu royal plus sombre */
+    background-color: #001b4b; /* Bleu royal plus sombre */
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
