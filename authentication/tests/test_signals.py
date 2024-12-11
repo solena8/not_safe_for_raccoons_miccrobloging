@@ -53,7 +53,6 @@ def test_profile_linked_to_user():
     assert profile.user == user
 
 
-
 @pytest.mark.django_db
 def test_profile_is_saved_when_user_is_updated():
     """
