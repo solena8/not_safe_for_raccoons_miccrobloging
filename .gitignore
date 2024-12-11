@@ -2,6 +2,7 @@ venv
 .venv
 monenv
 db.sqlite3
+tests/snapshots
 
 # Django
 *.log

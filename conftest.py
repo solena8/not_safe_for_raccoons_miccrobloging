@@ -1,9 +1,9 @@
 import pytest
 import django
+from playwright.sync_api import sync_playwright
 from django.conf import settings
 import os
 import shutil
-
 
 # Initialisation de Django
 django.setup()
@@ -25,6 +25,12 @@ def test_user(db):
         password="secure_password"
     )
 
+@pytest.fixture(scope="session")
+def browser():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        yield browser
+        browser.close()
 
 # Fixture qui s'exécute avant chaque test pour créer un dossier `media` pour les tests
 @pytest.fixture(scope="function", autouse=True)
