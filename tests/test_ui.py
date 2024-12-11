@@ -24,7 +24,7 @@ class Test_UI:
 
         if diff.getbbox():
             print("Images are different!")
-            diff_path = "snapshots/differences.png"
+            diff_path = "tests/snapshots/differences.png"
             diff.save(diff_path)
             print(f"Différences sauvegardées dans {diff_path}")
             return False
@@ -35,11 +35,11 @@ class Test_UI:
     def test_login_snapshot(self, page, test_server):
         server_url = test_server.url
         self._make_login_snapshot(page, server_url)
-        reference_snapshot_path = "snapshots/login_reference.png"
+        reference_snapshot_path = "tests/snapshots/login_reference.png"
         page.goto(server_url)
         page.evaluate("document.activeElement.blur()")  # Supprime le focus actif
-        page.screenshot(path="snapshots/login_actual.png")
-        actual_snapshot_path="snapshots/login_actual.png"
+        page.screenshot(path="tests/snapshots/login_actual.png")
+        actual_snapshot_path="tests/snapshots/login_actual.png"
 
         # Comparaison des images
         assert self.compare_snapshots(actual_snapshot_path, reference_snapshot_path), "Les images ne correspondent pas"
